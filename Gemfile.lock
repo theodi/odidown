@@ -1,0 +1,35 @@
+PATH
+  remote: .
+  specs:
+    odidown (0.0.1)
+      govspeak (~> 1.2.3)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    govspeak (1.2.3)
+      htmlentities (~> 4)
+      kramdown (~> 0.13.3)
+      sanitize (= 2.0.3)
+    htmlentities (4.3.1)
+    kramdown (0.13.8)
+    multi_json (1.7.7)
+    nokogiri (1.5.10)
+    rake (0.9.6)
+    sanitize (2.0.3)
+      nokogiri (>= 1.4.4, < 1.6)
+    simplecov (0.7.1)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.7.1)
+    simplecov-html (0.7.1)
+    simplecov-rcov (0.2.3)
+      simplecov (>= 0.4.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  odidown!
+  rake (~> 0.9.0)
+  simplecov
+  simplecov-rcov
