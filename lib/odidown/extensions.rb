@@ -4,8 +4,16 @@ class Govspeak::Document
     %{<div><iframe width="560" height="315" src="//www.youtube.com/embed/#{id}" frameborder="0" allowfullscreen=""></iframe></div>}
   end
 
+  def vimeo(id)
+    %{<div><iframe src="http://player.vimeo.com/video/#{id}" width="500" height="375" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>}
+  end
+
   extension('youtube', surrounded_by("youtube[","]")) do |body|
     youtube(body)
+  end
+
+  extension('vimeo', surrounded_by("vimeo[","]")) do |body|
+    vimeo(body)
   end
 
   extension('soundcloud', surrounded_by("soundcloud[","]")) do |body|
@@ -18,6 +26,9 @@ class Govspeak::Document
       when /youtube\.com/
         id = url.split(/[\&\=]/)[1]
         youtube(id)
+      when /vimeo.com/
+        id = url.split(/[\/\?]/)[3]
+        vimeo(id)     
       else
         ''
     end
