@@ -23,15 +23,4 @@ class Govspeak::Document
     end
   end
 
-  extension('audio', surrounded_by("audio[","]")) do |url|
-    case url
-      when /youtube\.com/
-        id = url.split(/[\&\=]/)[1]
-        youtube(id)
-      else
-        ''
-    end
-  end
-
-
 end
