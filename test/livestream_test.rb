@@ -13,7 +13,7 @@ class LivestreamTest < Test::Unit::TestCase
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
 
-  test "video extension with livestream URL" do
+  test "generic embed with livestream URL" do
     odidown = 'embed[http://new.livestream.com/DEN/events/2288116]'
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
