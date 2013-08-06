@@ -63,6 +63,9 @@ class Govspeak::Document
       when /youtube\.com/
         id = url.split(/[\&\=]/)[1]
         youtube(id)
+      when /youtu\.be/
+        id = url.split(/[\/\?]/)[3]
+        youtube(id)
       when /vimeo.com/
         id = url.split(/[\/\?]/)[3]
         vimeo(id)     

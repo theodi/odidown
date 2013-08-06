@@ -18,4 +18,9 @@ class YouTubeTest < Test::Unit::TestCase
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
   
+  test "youtube embed with short url" do
+    odidown = 'video[http://youtu.be/OZPTM0PGQPE]'
+    assert Govspeak::Document.new(odidown).to_html.include? @@html
+  end
+  
 end
