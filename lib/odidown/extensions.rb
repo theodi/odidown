@@ -44,11 +44,12 @@ class Govspeak::Document
     erb('scribd', id: id, width: '100%', height: '600')
   end
   
-  def livestream(id)
-    if id =~ /^https?:\/\//
-      oembed = get_json "http://api.embed.ly/v1/api/oembed?url=#{id}"
-      account = oembed['html'].match(/\/accounts\/([0-9]*)/)[1]
-      event = oembed['html'].match(/\/events\/([0-9]*)/)[1]
+  def livestream(url)
+    if url =~ /^https?:\/\//
+      html = Net::HTTP.get(URI.parse(url))
+      re = /livestream.com\/accounts\/([0-9]*)\/events\/([0-9]*)\/player/
+      account = html.match(re)[1]
+      event = html.match(re)[2]
       erb('livestream', account: account, event: event, width: '640', height: '360')
     end
   end
