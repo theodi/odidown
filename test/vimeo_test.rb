@@ -2,7 +2,7 @@ require "test_helper"
 
 class VimeoTest < Test::Unit::TestCase
 
-  @@html = %{<iframe src="http://player.vimeo.com/video/11911548" width="500" height="375" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>}
+  @@html = %{<iframe src="https://player.vimeo.com/video/11911548" width="500" height="375" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>}
 
   test "allow vimeo embeds" do
     assert_equal @@html, Govspeak::HtmlSanitizer.new(@@html).sanitize
