@@ -10,7 +10,7 @@ class Govspeak::HtmlSanitizer
     # We're event MORE relaxed at the ODI.
     # Let's allow iframes, for youtube embedding!
     config[:elements].push("iframe")
-    config[:attributes]["iframe"] = ["src", "width", "height", "frameborder", "allowfullscreen"]
+    config[:attributes]["iframe"] = ["src", "width", "height", "frameborder", "allowfullscreen", "mozallowfullscreen", "webkitallowfullscreen"]
     # Done
     config
   end
