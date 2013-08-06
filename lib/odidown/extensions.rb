@@ -6,10 +6,18 @@ require 'net/http'
 class Govspeak::Document
 
   def youtube(id)
+    if id =~ /youtube.com/
+      id = id.split(/[\&\=]/)[1]
+    elsif id =~ /youtu.be/
+      id = id.split(/[\/\?]/)[3]
+    end
     erb('youtube', id: id, width: '560', height: '315')
   end
 
   def vimeo(id)
+    if id =~ /^https?:\/\//
+      id = id.split(/[\/\?]/)[3]
+    end
     erb('vimeo', id: id, width: '500', height: '375')
   end
   
@@ -54,17 +62,16 @@ class Govspeak::Document
     end
   end
 
+  # Generic extension
+
   extension('video', surrounded_by("video[","]")) do |url|
     case url
-      when /youtube\.com/
-        id = url.split(/[\&\=]/)[1]
-        youtube(id)
-      when /youtu\.be/
-        id = url.split(/[\/\?]/)[3]
-        youtube(id)
-      when /vimeo.com/
-        id = url.split(/[\/\?]/)[3]
-        vimeo(id)     
+      when /youtube\.com/,  /youtu\.be/
+        youtube(url)
+      when /vimeo\.com/
+        vimeo(url)     
+      when /livestream\.com/
+        livestream(url)
       else
         ''
     end
