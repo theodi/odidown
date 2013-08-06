@@ -45,7 +45,12 @@ class Govspeak::Document
   end
   
   def livestream(id)
-    
+    if id =~ /^https?:\/\//
+      oembed = get_json "http://api.embed.ly/v1/api/oembed?url=#{id}"
+      account = oembed['html'].match(/\/accounts\/([0-9]*)/)[1]
+      event = oembed['html'].match(/\/events\/([0-9]*)/)[1]
+      erb('livestream', account: account, event: event, width: '640', height: '360')
+    end
   end
   
   # Extensions
@@ -56,6 +61,7 @@ class Govspeak::Document
     :soundcloud,
     :slideshare,
     :scribd,
+    :livestream,
   ].each do |service|
     extension(service.to_s, surrounded_by("#{service}[","]")) do |id|
       send(service, id)
