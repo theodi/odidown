@@ -21,6 +21,10 @@ class Govspeak::Document
     erb('slideshare', id: id, width: '427', height: '356')
   end
   
+  def scribd(id)
+    erb('scribd', id: id, width: '100%', height: '600')
+  end
+  
   # Extensions
 
   extension('youtube', surrounded_by("youtube[","]")) do |id|
@@ -34,7 +38,6 @@ class Govspeak::Document
   extension('soundcloud', surrounded_by("soundcloud[","]")) do |id|
     if id =~ /^https?:\/\//
       oembed = get_json "http://soundcloud.com/oembed?url=#{id}&format=json"
-      puts oembed.inspect
       id = oembed['html'].match(/tracks%2F([0-9]*?)&/)[1]
     end
     soundcloud(id)
@@ -46,6 +49,13 @@ class Govspeak::Document
       id = oembed['slideshow_id']
     end
     slideshare(id)
+  end
+
+  extension('scribd', surrounded_by("scribd[","]")) do |id|
+    if id =~ /^https?:\/\//
+      id = id.match(/\/doc\/([0-9]*)/)[1]
+    end
+    scribd(id)
   end
 
   extension('video', surrounded_by("video[","]")) do |url|

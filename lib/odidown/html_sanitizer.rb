@@ -13,7 +13,8 @@ class Govspeak::HtmlSanitizer
     config[:attributes]["iframe"] = [ "src", "width", "height", "frameborder", 
                                       "allowfullscreen", "mozallowfullscreen", 
                                       "webkitallowfullscreen", "style", "marginwidth",
-                                      "marginheight", "scrolling"]
+                                      "marginheight", "scrolling", "data-auto-height",
+                                      "data-aspect-ratio", ]
     # Done
     config
   end
