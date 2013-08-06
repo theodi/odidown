@@ -31,8 +31,13 @@ class Govspeak::Document
     vimeo(id)
   end
 
-  extension('soundcloud', surrounded_by("soundcloud[","]")) do |body|
-    soundcloud(body)
+  extension('soundcloud', surrounded_by("soundcloud[","]")) do |id|
+    if id =~ /^https?:\/\//
+      oembed = get_json "http://soundcloud.com/oembed?url=#{id}&format=json"
+      puts oembed.inspect
+      id = oembed['html'].match(/tracks%2F([0-9]*?)&/)[1]
+    end
+    soundcloud(id)
   end
 
   extension('slideshare', surrounded_by("slideshare[","]")) do |id|

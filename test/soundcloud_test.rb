@@ -13,4 +13,9 @@ class SoundcloudTest < Test::Unit::TestCase
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
 
+  test "soundcloud extension with URL" do
+    odidown = 'soundcloud[https://soundcloud.com/pomdeterrific/pomdeter-call-me-a-hole]'
+    assert Govspeak::Document.new(odidown).to_html.include? @@html
+  end
+
 end
