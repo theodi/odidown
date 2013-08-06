@@ -15,6 +15,10 @@ class Govspeak::Document
     erb('soundcloud', id: id, width: '100%', height: '166')
   end
   
+  def slideshare(id)
+    erb('slideshare', id: id, width: '427', height: '356')
+  end
+  
   # Extensions
 
   extension('youtube', surrounded_by("youtube[","]")) do |body|
@@ -27,6 +31,10 @@ class Govspeak::Document
 
   extension('soundcloud', surrounded_by("soundcloud[","]")) do |body|
     soundcloud(body)
+  end
+
+  extension('slideshare', surrounded_by("slideshare[","]")) do |body|
+    slideshare(body)
   end
 
   extension('video', surrounded_by("video[","]")) do |url|
