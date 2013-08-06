@@ -23,4 +23,9 @@ class ScribdTest < Test::Unit::TestCase
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
 
+  test "scribd embed with specified size" do
+    odidown = 'embed[http://www.scribd.com/doc/152704524/Data-as-the-Divine|200,100]'
+    assert Govspeak::Document.new(odidown).to_html.include? 'width="200" height="100"'
+  end
+
 end

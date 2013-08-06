@@ -42,4 +42,13 @@ The embed syntax above supports the following services:
 * Livestream
 * Storify
 
-Just paste in the content page URL, and the code will do the rest.
+Just paste in the content page URL, and the code will do the rest. You can specify a size like so, either in pixels, or %:
+
+```
+embed[https://www.youtube.com/watch?v=aeaZ3_UN18g|200,100]
+embed[https://www.youtube.com/watch?v=aeaZ3_UN18g|100%,400]
+```
+
+All embed sources support width/height, except:
+
+* Storify

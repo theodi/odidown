@@ -23,4 +23,9 @@ class SlideshareTest < Test::Unit::TestCase
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
 
+  test "slideshare embed with specified size" do
+    odidown = 'embed[http://www.slideshare.net/EmilandDC/dear-nsa-let-me-take-care-ou|200,100]'
+    assert Govspeak::Document.new(odidown).to_html.include? 'width="200" height="100"'
+  end
+
 end

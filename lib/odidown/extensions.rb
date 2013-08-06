@@ -6,51 +6,57 @@ require 'net/http'
 class Govspeak::Document
 
   def youtube(id)
+    id, width, height = dimensions(id,'560','315')
     if id =~ /youtube.com/
       id = id.split(/[\&\=]/)[1]
     elsif id =~ /youtu.be/
       id = id.split(/[\/\?]/)[3]
     end
-    erb('youtube', id: id, width: '560', height: '315')
+    erb('youtube', id: id, width: width, height: height)
   end
 
   def vimeo(id)
+    id, width, height = dimensions(id,'500','375')
     if id =~ /^https?:\/\//
       id = id.split(/[\/\?]/)[3]
     end
-    erb('vimeo', id: id, width: '500', height: '375')
+    erb('vimeo', id: id, width: width, height: height)
   end
   
   def soundcloud(id)
+    id, width, height = dimensions(id,'100%','166')
     if id =~ /^https?:\/\//
       oembed = get_json "http://soundcloud.com/oembed?url=#{id}&format=json"
       id = oembed['html'].match(/tracks%2F([0-9]*?)&/)[1]
     end
-    erb('soundcloud', id: id, width: '100%', height: '166')
+    erb('soundcloud', id: id, width: width, height: height)
   end
   
   def slideshare(id)
+    id, width, height = dimensions(id,'427','356')
     if id =~ /^https?:\/\//
       oembed = get_json "http://www.slideshare.net/api/oembed/2?url=#{id}&format=json"
       id = oembed['slideshow_id']
     end
-    erb('slideshare', id: id, width: '427', height: '356')
+    erb('slideshare', id: id, width: width, height: height)
   end
   
   def scribd(id)
+    id, width, height = dimensions(id,'100%','600')
     if id =~ /^https?:\/\//
       id = id.match(/\/doc\/([0-9]*)/)[1]
     end
-    erb('scribd', id: id, width: '100%', height: '600')
+    erb('scribd', id: id, width: width, height: height)
   end
   
   def livestream(url)
+    url, width, height = dimensions(url,'640','360')
     if url =~ /^https?:\/\//
       html = Net::HTTP.get(URI.parse(url))
       re = /livestream.com\/accounts\/([0-9]*)\/events\/([0-9]*)\/player/
       account = html.match(re)[1]
       event = html.match(re)[2]
-      erb('livestream', account: account, event: event, width: '640', height: '360')
+      erb('livestream', account: account, event: event, width: width, height: height)
     end
   end
   
@@ -115,6 +121,19 @@ class Govspeak::Document
 
   def get_json(url)
     JSON.parse(Net::HTTP.get(URI.parse(url)))
+  end
+  
+  def dimensions(str, default_width, default_height)
+    match = str.match /([^\|].*)\|([0-9\%px]*)\,([0-9\%px]*)/
+    if match
+      str = match[1]
+      width = match[2]
+      height = match[3]
+    else
+      width = default_width
+      height = default_height
+    end
+    [str, width, height]
   end
 
 end

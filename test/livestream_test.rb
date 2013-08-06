@@ -18,4 +18,9 @@ class LivestreamTest < Test::Unit::TestCase
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
 
+  test "livestream embed with specified size" do
+    odidown = 'embed[http://new.livestream.com/DEN/events/2288116|200,100]'
+    assert Govspeak::Document.new(odidown).to_html.include? 'width="200" height="100"'
+  end
+
 end

@@ -23,4 +23,9 @@ class YouTubeTest < Test::Unit::TestCase
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
   
+  test "youtube embed with specified size" do
+    odidown = 'embed[http://youtu.be/OZPTM0PGQPE|200,100]'
+    assert Govspeak::Document.new(odidown).to_html.include? 'width="200" height="100"'
+  end
+
 end

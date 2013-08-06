@@ -23,4 +23,9 @@ class SoundcloudTest < Test::Unit::TestCase
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
 
+  test "vimeo embed with specified size" do
+    odidown = 'embed[https://soundcloud.com/pomdeterrific/pomdeter-call-me-a-hole|200,100]'
+    assert Govspeak::Document.new(odidown).to_html.include? 'width="200" height="100"'
+  end
+
 end

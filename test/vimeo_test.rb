@@ -18,4 +18,9 @@ class VimeoTest < Test::Unit::TestCase
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
   
+  test "vimeo embed with specified size" do
+    odidown = 'embed[http://vimeo.com/11911548?whatever|200,100]'
+    assert Govspeak::Document.new(odidown).to_html.include? 'width="200" height="100"'
+  end
+
 end
