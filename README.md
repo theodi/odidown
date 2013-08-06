@@ -18,14 +18,28 @@ then create a new document
 
 # Extensions
 
-In addition to the [govspeak's extensions](http://github.com/alphagov/govspeak):
+In addition to the [govspeak extensions](http://github.com/alphagov/govspeak):
 
-## iframe tags
+## Tags
 
-iframe tags are allowed, for embedding things like Youtube videos.
+`iframe` and `script` tags are allowed, for embedding things like Youtube videos and tweets.
 
-## Video helpers
+## Embedding
+
+We also have a nice helper for embedding content from a number of different services:
 
 ```
-youtube:OZPTM0PGQPE
+embed[https://www.youtube.com/watch?v=aeaZ3_UN18g]
 ```
+
+The embed syntax above supports the following services:
+
+* Youtube (inc. Hangouts on Air)
+* Vimeo
+* Soundcloud
+* Slideshare
+* Scribd
+* Livestream
+* Storify
+
+Just paste in the content page URL, and the code will do the rest.
