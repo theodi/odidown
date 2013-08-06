@@ -18,4 +18,9 @@ class SlideshareTest < Test::Unit::TestCase
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
 
+  test "generic embed with slideshare URL" do
+    odidown = 'embed[http://www.slideshare.net/EmilandDC/dear-nsa-let-me-take-care-ou]'
+    assert Govspeak::Document.new(odidown).to_html.include? @@html
+  end
+
 end

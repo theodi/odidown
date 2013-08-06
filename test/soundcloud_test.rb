@@ -18,4 +18,9 @@ class SoundcloudTest < Test::Unit::TestCase
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
 
+  test "soundcloud with generic URL embed" do
+    odidown = 'embed[https://soundcloud.com/pomdeterrific/pomdeter-call-me-a-hole]'
+    assert Govspeak::Document.new(odidown).to_html.include? @@html
+  end
+
 end

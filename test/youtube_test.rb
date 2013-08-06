@@ -13,13 +13,13 @@ class YouTubeTest < Test::Unit::TestCase
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
 
-  test "youtube embed with generic video tag" do
-    odidown = 'video[https://www.youtube.com/watch?v=OZPTM0PGQPE&feature=player_detailpage&t=389]'
+  test "youtube embed with generic embed tag" do
+    odidown = 'embed[https://www.youtube.com/watch?v=OZPTM0PGQPE&feature=player_detailpage&t=389]'
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
   
   test "youtube embed with short url" do
-    odidown = 'video[http://youtu.be/OZPTM0PGQPE]'
+    odidown = 'embed[http://youtu.be/OZPTM0PGQPE]'
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
   

@@ -79,14 +79,22 @@ class Govspeak::Document
 
   # Generic extension
 
-  extension('video', surrounded_by("video[","]")) do |url|
+  extension('embed', surrounded_by("embed[","]")) do |url|
     case url
       when /youtube\.com/,  /youtu\.be/
         youtube(url)
       when /vimeo\.com/
         vimeo(url)     
+      when /soundcloud\.com/
+        soundcloud(url)
+      when /slideshare\.net/
+        slideshare(url)
+      when /scribd\.com/
+        scribd(url)
       when /livestream\.com/
         livestream(url)
+      when /storify\.com/
+        storify(url)
       else
         ''
     end

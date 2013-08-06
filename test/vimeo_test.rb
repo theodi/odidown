@@ -13,8 +13,8 @@ class VimeoTest < Test::Unit::TestCase
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
 
-  test "vimeo embed with generic video tag" do
-    odidown = 'video[http://vimeo.com/11911548?whatever]'
+  test "vimeo embed with generic embed tag" do
+    odidown = 'embed[http://vimeo.com/11911548?whatever]'
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
   

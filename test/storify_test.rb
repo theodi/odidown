@@ -13,4 +13,9 @@ class StorifyTest < Test::Unit::TestCase
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
 
+  test "storify with generic embed" do
+    odidown = 'embed[http://storify.com/pikesley/the-saga-of-the-penguin-head]'
+    assert Govspeak::Document.new(odidown).to_html.include? @@html
+  end
+
 end

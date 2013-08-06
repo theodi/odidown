@@ -18,4 +18,9 @@ class ScribdTest < Test::Unit::TestCase
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
 
+  test "generic embed with scribd URL" do
+    odidown = 'scribd[http://www.scribd.com/doc/152704524/Data-as-the-Divine]'
+    assert Govspeak::Document.new(odidown).to_html.include? @@html
+  end
+
 end
