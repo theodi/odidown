@@ -1,5 +1,7 @@
 require 'erb'
 require 'ostruct'
+require 'json'
+require 'net/http'
 
 class Govspeak::Document
 
@@ -33,8 +35,12 @@ class Govspeak::Document
     soundcloud(body)
   end
 
-  extension('slideshare', surrounded_by("slideshare[","]")) do |body|
-    slideshare(body)
+  extension('slideshare', surrounded_by("slideshare[","]")) do |id|
+    if id =~ /^https?:\/\//
+      oembed = get_json "http://www.slideshare.net/api/oembed/2?url=#{id}&format=json"
+      id = oembed['slideshow_id']
+    end
+    slideshare(id)
   end
 
   extension('video', surrounded_by("video[","]")) do |url|
@@ -61,6 +67,10 @@ class Govspeak::Document
   def erb(template, options)
     renderer = ErbRenderer.new(options)
     renderer.render(File.read(File.join(File.dirname(__FILE__), '..', '..', 'views', "#{template}.erb"))) 
+  end
+
+  def get_json(url)
+    JSON.parse(Net::HTTP.get(URI.parse(url)))
   end
 
 end

@@ -10,7 +10,11 @@ class SlideshareTest < Test::Unit::TestCase
 
   test "slideshare extension with ID" do
     odidown = 'slideshare[22805706]'
-    puts Govspeak::Document.new(odidown).to_html
+    assert Govspeak::Document.new(odidown).to_html.include? @@html
+  end
+
+  test "slideshare extension with URL" do
+    odidown = 'slideshare[http://www.slideshare.net/EmilandDC/dear-nsa-let-me-take-care-ou]'
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
 
