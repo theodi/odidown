@@ -23,12 +23,12 @@ class Govspeak::Document
   
   # Extensions
 
-  extension('youtube', surrounded_by("youtube[","]")) do |body|
-    youtube(body)
+  extension('youtube', surrounded_by("youtube[","]")) do |id|
+    youtube(id)
   end
 
-  extension('vimeo', surrounded_by("vimeo[","]")) do |body|
-    vimeo(body)
+  extension('vimeo', surrounded_by("vimeo[","]")) do |id|
+    vimeo(id)
   end
 
   extension('soundcloud', surrounded_by("soundcloud[","]")) do |body|
