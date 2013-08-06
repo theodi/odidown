@@ -1,37 +1,139 @@
+require 'erb'
+require 'ostruct'
+require 'json'
+require 'net/http'
+
 class Govspeak::Document
 
   def youtube(id)
-    %{<div><iframe width="560" height="315" src="//www.youtube.com/embed/#{id}" frameborder="0" allowfullscreen=""></iframe></div>}
+    id, width, height = dimensions(id,'560','315')
+    if id =~ /youtube.com/
+      id = id.split(/[\&\=]/)[1]
+    elsif id =~ /youtu.be/
+      id = id.split(/[\/\?]/)[3]
+    end
+    erb('youtube', id: id, width: width, height: height)
   end
 
   def vimeo(id)
-    %{<div><iframe src="http://player.vimeo.com/video/#{id}" width="500" height="375" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>}
+    id, width, height = dimensions(id,'500','375')
+    if id =~ /^https?:\/\//
+      id = id.split(/[\/\?]/)[3]
+    end
+    erb('vimeo', id: id, width: width, height: height)
+  end
+  
+  def soundcloud(id)
+    id, width, height = dimensions(id,'100%','166')
+    if id =~ /^https?:\/\//
+      oembed = get_json "http://soundcloud.com/oembed?url=#{id}&format=json"
+      id = oembed['html'].match(/tracks%2F([0-9]*?)&/)[1]
+    end
+    erb('soundcloud', id: id, width: width, height: height)
+  end
+  
+  def slideshare(id)
+    id, width, height = dimensions(id,'427','356')
+    if id =~ /^https?:\/\//
+      oembed = get_json "http://www.slideshare.net/api/oembed/2?url=#{id}&format=json"
+      id = oembed['slideshow_id']
+    end
+    erb('slideshare', id: id, width: width, height: height)
+  end
+  
+  def scribd(id)
+    id, width, height = dimensions(id,'100%','600')
+    if id =~ /^https?:\/\//
+      id = id.match(/\/doc\/([0-9]*)/)[1]
+    end
+    erb('scribd', id: id, width: width, height: height)
+  end
+  
+  def livestream(url)
+    url, width, height = dimensions(url,'640','360')
+    if url =~ /^https?:\/\//
+      html = Net::HTTP.get(URI.parse(url))
+      re = /livestream.com\/accounts\/([0-9]*)\/events\/([0-9]*)\/player/
+      account = html.match(re)[1]
+      event = html.match(re)[2]
+      erb('livestream', account: account, event: event, width: width, height: height)
+    end
+  end
+  
+  def storify(url)
+    if url =~ /^https?:\/\//
+      path = url.match(/storify.com\/([^\?]*)/)[1]
+      erb('storify', path: path)
+    end
+  end
+  
+  # Extensions
+
+  [
+    :youtube,
+    :vimeo,
+    :soundcloud,
+    :slideshare,
+    :scribd,
+    :livestream,
+    :storify,
+  ].each do |service|
+    extension(service.to_s, surrounded_by("#{service}[","]")) do |id|
+      send(service, id)
+    end
   end
 
-  extension('youtube', surrounded_by("youtube[","]")) do |body|
-    youtube(body)
-  end
+  # Generic extension
 
-  extension('vimeo', surrounded_by("vimeo[","]")) do |body|
-    vimeo(body)
-  end
-
-  extension('soundcloud', surrounded_by("soundcloud[","]")) do |body|
-    %{<div><iframe width="100%" height="166" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F#{body}"></iframe></div>
-}
-  end
-
-  extension('video', surrounded_by("video[","]")) do |url|
+  extension('embed', surrounded_by("embed[","]")) do |url|
     case url
-      when /youtube\.com/
-        id = url.split(/[\&\=]/)[1]
-        youtube(id)
-      when /vimeo.com/
-        id = url.split(/[\/\?]/)[3]
-        vimeo(id)     
+      when /youtube\.com/,  /youtu\.be/
+        youtube(url)
+      when /vimeo\.com/
+        vimeo(url)     
+      when /soundcloud\.com/
+        soundcloud(url)
+      when /slideshare\.net/
+        slideshare(url)
+      when /scribd\.com/
+        scribd(url)
+      when /livestream\.com/
+        livestream(url)
+      when /storify\.com/
+        storify(url)
       else
         ''
     end
+  end
+
+  private
+  
+  class ErbRenderer < OpenStruct
+    def render(template)
+      ERB.new(template).result(binding)
+    end
+  end
+
+  def erb(template, options)
+    renderer = ErbRenderer.new(options)
+    renderer.render(File.read(File.join(File.dirname(__FILE__), '..', '..', 'views', "#{template}.erb"))) 
+  end
+
+  def get_json(url)
+    JSON.parse(Net::HTTP.get(URI.parse(url)))
+  end
+  
+  def dimensions(str, default_width, default_height)
+    match = str.match /([^\|].*)\|([0-9\%px]*)\,([0-9\%px]*)/
+    if match
+      str = match[1]
+      width = match[2]
+      height = match[3]
+    else
+      width = default_width
+      height = default_height
+    end
+    [str, width, height]
   end
 
 end
