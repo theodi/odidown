@@ -17,7 +17,7 @@ class Govspeak::HtmlSanitizer
                                       "data-aspect-ratio", ]
     # Some things embed with scripts. This can't be a bad thing.
     config[:elements].push("script")
-    config[:attributes]["script"] = [ "src" ]
+    config[:attributes]["script"] = [ "src", "async", "charset" ]
     # Done
     config
   end
