@@ -53,6 +53,13 @@ class Govspeak::Document
     end
   end
   
+  def storify(url)
+    if url =~ /^https?:\/\//
+      path = url.match(/storify.com\/([^\?]*)/)[1]
+      erb('storify', path: path)
+    end
+  end
+  
   # Extensions
 
   [
@@ -62,6 +69,7 @@ class Govspeak::Document
     :slideshare,
     :scribd,
     :livestream,
+    :storify,
   ].each do |service|
     extension(service.to_s, surrounded_by("#{service}[","]")) do |id|
       send(service, id)

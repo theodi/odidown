@@ -15,6 +15,9 @@ class Govspeak::HtmlSanitizer
                                       "webkitallowfullscreen", "style", "marginwidth",
                                       "marginheight", "scrolling", "data-auto-height",
                                       "data-aspect-ratio", ]
+    # Some things embed with scripts. This can't be a bad thing.
+    config[:elements].push("script")
+    config[:attributes]["script"] = [ "src" ]
     # Done
     config
   end
