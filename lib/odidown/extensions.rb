@@ -1,12 +1,21 @@
+require 'erb'
+require 'ostruct'
+
 class Govspeak::Document
 
   def youtube(id)
-    %{<div><iframe width="560" height="315" src="//www.youtube.com/embed/#{id}" frameborder="0" allowfullscreen=""></iframe></div>}
+    erb('youtube', id: id, width: '560', height: '315')
   end
 
   def vimeo(id)
-    %{<div><iframe src="http://player.vimeo.com/video/#{id}" width="500" height="375" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>}
+    erb('vimeo', id: id, width: '500', height: '375')
   end
+  
+  def soundcloud(id)
+    erb('soundcloud', id: id, width: '100%', height: '166')
+  end
+  
+  # Extensions
 
   extension('youtube', surrounded_by("youtube[","]")) do |body|
     youtube(body)
@@ -17,8 +26,7 @@ class Govspeak::Document
   end
 
   extension('soundcloud', surrounded_by("soundcloud[","]")) do |body|
-    %{<div><iframe width="100%" height="166" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F#{body}"></iframe></div>
-}
+    soundcloud(body)
   end
 
   extension('video', surrounded_by("video[","]")) do |url|
@@ -32,6 +40,19 @@ class Govspeak::Document
       else
         ''
     end
+  end
+
+  private
+  
+  class ErbRenderer < OpenStruct
+    def render(template)
+      ERB.new(template).result(binding)
+    end
+  end
+
+  def erb(template, options)
+    renderer = ErbRenderer.new(options)
+    renderer.render(File.read(File.join(File.dirname(__FILE__), '..', '..', 'views', "#{template}.erb"))) 
   end
 
 end
