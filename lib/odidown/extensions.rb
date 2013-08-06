@@ -14,48 +14,44 @@ class Govspeak::Document
   end
   
   def soundcloud(id)
-    erb('soundcloud', id: id, width: '100%', height: '166')
-  end
-  
-  def slideshare(id)
-    erb('slideshare', id: id, width: '427', height: '356')
-  end
-  
-  def scribd(id)
-    erb('scribd', id: id, width: '100%', height: '600')
-  end
-  
-  # Extensions
-
-  extension('youtube', surrounded_by("youtube[","]")) do |id|
-    youtube(id)
-  end
-
-  extension('vimeo', surrounded_by("vimeo[","]")) do |id|
-    vimeo(id)
-  end
-
-  extension('soundcloud', surrounded_by("soundcloud[","]")) do |id|
     if id =~ /^https?:\/\//
       oembed = get_json "http://soundcloud.com/oembed?url=#{id}&format=json"
       id = oembed['html'].match(/tracks%2F([0-9]*?)&/)[1]
     end
-    soundcloud(id)
+    erb('soundcloud', id: id, width: '100%', height: '166')
   end
-
-  extension('slideshare', surrounded_by("slideshare[","]")) do |id|
+  
+  def slideshare(id)
     if id =~ /^https?:\/\//
       oembed = get_json "http://www.slideshare.net/api/oembed/2?url=#{id}&format=json"
       id = oembed['slideshow_id']
     end
-    slideshare(id)
+    erb('slideshare', id: id, width: '427', height: '356')
   end
-
-  extension('scribd', surrounded_by("scribd[","]")) do |id|
+  
+  def scribd(id)
     if id =~ /^https?:\/\//
       id = id.match(/\/doc\/([0-9]*)/)[1]
     end
-    scribd(id)
+    erb('scribd', id: id, width: '100%', height: '600')
+  end
+  
+  def livestream(id)
+    
+  end
+  
+  # Extensions
+
+  [
+    :youtube,
+    :vimeo,
+    :soundcloud,
+    :slideshare,
+    :scribd,
+  ].each do |service|
+    extension(service.to_s, surrounded_by("#{service}[","]")) do |id|
+      send(service, id)
+    end
   end
 
   extension('video', surrounded_by("video[","]")) do |url|
