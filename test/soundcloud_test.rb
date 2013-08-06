@@ -8,7 +8,7 @@ class SoundcloudTest < Test::Unit::TestCase
     assert_equal @@html, Govspeak::HtmlSanitizer.new(@@html).sanitize
   end
 
-  test "soundcloud extension" do
+  test "soundcloud extension with ID" do
     odidown = 'soundcloud[81761778]'
     assert Govspeak::Document.new(odidown).to_html.include? @@html
   end
