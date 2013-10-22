@@ -6,7 +6,7 @@ class Govspeak::HtmlSanitizer
     config = Sanitize::Config::RELAXED.dup
     config[:attributes][:all].push("id", "class")
     config[:attributes]["a"].push("rel")
-    config[:elements].push("div", "hr")
+    config[:elements].push("div", "hr", "table", "colgroup", "thead", "tbody", "th", "td", "tr", "col", "section", "span", "address")
     # We're event MORE relaxed at the ODI.
     # Let's allow iframes, for embedding of various things!
     config[:elements].push("iframe")
