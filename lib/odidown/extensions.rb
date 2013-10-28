@@ -66,6 +66,10 @@ class Govspeak::Document
       erb('storify', path: path)
     end
   end
+
+  def attachment(attachment, url, alt_text, classes)
+    erb('attachment', url: url, attachment: attachment, alt_text: alt_text, classes: classes)
+  end
   
   # Extensions
 
@@ -81,6 +85,12 @@ class Govspeak::Document
     extension(service.to_s, surrounded_by("#{service}[","]")) do |id|
       send(service, id)
     end
+  end
+
+  # Image Attachments
+  extension('attachment', surrounded_by("attachment[","]")) do |params|
+    id, attachment, alt_text, classes= params.split(', ')
+    attachment(id, attachment, alt_text, classes)
   end
 
   # Generic extension
