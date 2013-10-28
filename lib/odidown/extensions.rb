@@ -90,7 +90,7 @@ class Govspeak::Document
   # Image Attachments
   extension('attachment', surrounded_by("attachment[","]")) do |params|
     id, attachment, alt_text, classes= params.split(', ')
-    send('attachment', id, attachment, alt_text, classes)
+    attachment(id, attachment, alt_text, classes)
   end
 
   # Generic extension
