@@ -15,7 +15,7 @@ class MathMLTest < Test::Unit::TestCase
       </msup>
     </math>
     EOF
-    assert_equal mathml, Govspeak::HtmlSanitizer.new(mathml).sanitize
+    assert_equal w(mathml), w(Govspeak::HtmlSanitizer.new(mathml).sanitize)
   end
 
   test "mathml quadratic equation" do
@@ -57,7 +57,12 @@ class MathMLTest < Test::Unit::TestCase
       </annotation>
     </math>
     EOF
-    assert_equal mathml, Govspeak::HtmlSanitizer.new(mathml).sanitize
+    assert_equal w(mathml), w(Govspeak::HtmlSanitizer.new(mathml).sanitize)
   end
+
+  def w(str)
+    str.gsub(/\>\s*/, ">").gsub(/\s*\</, "<")
+  end
+    
 
 end
