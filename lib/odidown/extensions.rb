@@ -53,7 +53,7 @@ class Govspeak::Document
     url, width, height = dimensions(url,'640','360')
     if url =~ /^https?:\/\//
       html = Net::HTTP.get(URI.parse(url))
-      re = /livestream.com\/accounts\/([0-9]*)\/events\/([0-9]*)\/player/
+      re = /livestream.com\/accounts\/([0-9]*)\/events\/([0-9]*)/
       account = html.match(re)[1]
       event = html.match(re)[2]
       erb('livestream', account: account, event: event, width: width, height: height)
