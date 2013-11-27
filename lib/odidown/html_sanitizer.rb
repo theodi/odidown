@@ -18,6 +18,54 @@ class Govspeak::HtmlSanitizer
     # Some things embed with scripts. This can't be a bad thing.
     config[:elements].push("script")
     config[:attributes]["script"] = [ "src", "async", "charset" ]
+    # Allow mathml
+    config[:elements].push("math")
+    config[:attributes]["math"] = [ "xmlns", "mode" ] 
+    config[:elements].push(
+      "maction", 
+      "maligngroup", 
+      "malignmark", 
+      "menclose", 
+      "merror", 
+      "mfenced", 
+      "mfrac", 
+      "mglyph", 
+      "mi", 
+      "mlabeledtr", 
+      "mlongdiv", 
+      "mmultiscripts", 
+      "mn", 
+      "mo", 
+      "mover", 
+      "mpadded", 
+      "mphantom", 
+      "mroot", 
+      "mrow", 
+      "ms", 
+      "mscarries", 
+      "mscarry", 
+      "msgroup", 
+      "msline", 
+      "mspace", 
+      "msqrt", 
+      "msrow", 
+      "mstack", 
+      "mstyle", 
+      "msub", 
+      "msup", 
+      "msubsup", 
+      "mtable", 
+      "mtd", 
+      "mtext", 
+      "mtr", 
+      "munder", 
+      "munderover", 
+      "semantics", 
+      "annotation", 
+      "annotation-xml", 
+    )
+    config[:attributes]["annotation"] = [ "encoding" ] 
+    config[:attributes]["mo"] = [ "form" ] 
     # Done
     config
   end
