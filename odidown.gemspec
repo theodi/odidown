@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.email         = ["james.smith@theodi.org"]
   s.homepage      = "http://github.com/theodi/odidown"
   s.summary       = %q{Markdown extensions for the ODI}
+  s.license       = "MIT"
 
   s.files         = Dir[
     'lib/**/*',
