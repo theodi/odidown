@@ -1,3 +1,6 @@
+require 'coveralls'
+Coveralls.wear!
+
 $:.unshift(File.expand_path("../lib")) unless $:.include?(File.expand_path("../lib"))
 
 require 'bundler'
