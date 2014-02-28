@@ -1,3 +1,11 @@
+[![Build Status](http://img.shields.io/travis/theodi/odidown.svg)](https://travis-ci.org/theodi/odidown)
+[![Dependency Status](http://img.shields.io/gemnasium/theodi/odidown.svg)](https://gemnasium.com/theodi/odidown)
+[![Coverage Status](http://img.shields.io/coveralls/theodi/odidown.svg)](https://coveralls.io/r/theodi/odidown)
+[![Code Climate](http://img.shields.io/codeclimate/github/theodi/odidown.svg)](https://codeclimate.com/github/theodi/odidown)
+[![Gem Version](http://img.shields.io/gem/v/odidown.svg)](https://rubygems.org/gems/odidown)
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://theodi.mit-license.org)
+[![Badges](http://img.shields.io/:badges-7/7-ff6799.svg)](https://github.com/pikesley/badger)
+
 ODIdown (pronounced like eiderdown) is a set of extensions to Markdown for use at the ODI.
 
 It's built on top of [govspeak](http://github.com/alphagov/govspeak), and basically just patches their extension rather than building our own.
