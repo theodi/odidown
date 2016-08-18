@@ -4,7 +4,7 @@ class Govspeak::HtmlSanitizer
   def sanitize_config
     # Original code
     config = Sanitize::Config::RELAXED.dup
-    config[:attributes][:all].push("id", "class")
+    config[:attributes][:all].push("id", "class", :data)
     config[:attributes]["a"].push("rel")
     config[:elements].push("div", "hr", "table", "colgroup", "thead", "tbody", "th", "td", "tr", "col", "section", "span", "address")
     # We're event MORE relaxed at the ODI.
