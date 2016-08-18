@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.test_files    = Dir['test/**/*']
   s.require_paths = ["lib"]
 
-  s.add_dependency 'govspeak', '~> 1.2.3'
+  s.add_dependency 'govspeak', '~> 3.6'
 
   s.add_development_dependency 'rake', '~> 0.9.0'
   s.add_development_dependency 'coveralls'
